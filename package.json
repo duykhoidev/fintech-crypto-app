@@ -1,6 +1,6 @@
 {
   "name": "fintech-crypto-app",
-  "main": "expo-router/entry",
+  "main": "node_modules/expo/AppEntry.js",
   "version": "1.0.0",
   "scripts": {
     "start": "expo start",
@@ -51,6 +51,7 @@
     "react-native-url-polyfill": "^2.0.0",
     "react-native-web": "~0.19.10",
     "react-native-webview": "13.8.6",
+    "styled-components": "^6.1.13",
     "victory-native": "^41.6.0",
     "zustand": "^5.0.0-rc.2"
   },
