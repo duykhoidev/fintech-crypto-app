@@ -1,12 +1,20 @@
-import { View, Text } from 'react-native'
-import React from 'react'
+import React from "react";
+import { Pressable, Text } from "react-native";
 
-const Button = () => {
-  return (
-    <View>
-      <Text>Button</Text>
-    </View>
-  )
+interface ButtonProps {
+  title: any;
+  action?: () => void;
 }
 
-export default Button
+const Button: React.FC<ButtonProps> = ({ title, action }: ButtonProps) => {
+  return (
+    <Pressable
+      className="bg-[#2ab07c] rounded-lg justify-center items-center py-3"
+      onPress={action}
+    >
+      <Text className="text-white font-bold text-lg">{title}</Text>
+    </Pressable>
+  );
+};
+
+export default Button;
