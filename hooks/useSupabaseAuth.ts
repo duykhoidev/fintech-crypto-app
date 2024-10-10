@@ -41,5 +41,47 @@ export default function useSupabaseAuth() {
     };
   }
 
-  
+  async function getUserProfile() {
+    if (!session?.user) throw new Error("No user on the session!");
+
+    const { data, error, status } = await supabase
+      .from("profiles")
+      .select(`username, full_name, avatar_url, website`)
+      .eq("id", session?.user.id)
+      .single();
+
+    return { data, error, status };
+  }
+
+  async function updateUserProfile(
+    username: string,
+    fullname: string,
+    avatarUrl: string,
+    website: string
+  ) {
+    if (!session?.user) throw new Error("No user on the session!");
+
+    const updates = {
+      id: session?.user.id,
+      username,
+      full_name: fullname,
+      avatar_url: avatarUrl,
+      website,
+      updated_at: new Date(),
+    };
+
+    const { error } = await supabase.from("profiles").upsert(updates);
+
+    return {
+      error,
+    };
+  }
+
+  return {
+    signInWithEmail,
+    signUpWithEmail,
+    signOut,
+    getUserProfile,
+    updateUserProfile,
+  };
 }

@@ -1,11 +1,14 @@
+import { supabase } from "@/lib/supabase";
 import Breaker from "@/src/components/Breaker";
 import Button from "@/src/components/Button";
 import ButtonOutline from "@/src/components/ButtonOutline";
+import { useUserStore } from "@/store/useUserStore";
 import { AntDesign } from "@expo/vector-icons";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
 import {
   ActivityIndicator,
+  Alert,
   Dimensions,
   Pressable,
   Text,
@@ -23,6 +26,30 @@ const LoginScreen = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { navigate: navigateAuth }: NavigationProp<AuthNavigationType> =
     useNavigation();
+  const { setUser, setSession } = useUserStore();
+
+  async function signInWithEmail() {
+    setIsLoading(true);
+
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: email,
+        password: password,
+      });
+
+      if (error) {
+        setIsLoading(false);
+        Alert.alert(error.message);
+      }
+
+      if (data.session && data.user) {
+        setSession(data.session);
+        setUser(data.user);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   return (
     <View className="flex-1">
@@ -96,7 +123,7 @@ const LoginScreen = () => {
             entering={FadeInDown.duration(100).delay(300).springify()}
           >
             <View className="pb-6">
-              <Button title={"Login"} />
+              <Button title={"Login"} action={() => signInWithEmail()} />
             </View>
           </Animated.View>
 
@@ -128,7 +155,7 @@ const LoginScreen = () => {
                 fontFamily: "PlusJakartaSansMedium",
               }}
             >
-              Don't have an account? {" "}
+              Don't have an account?{" "}
             </Text>
 
             <Pressable onPress={() => navigateAuth("Register")}>
