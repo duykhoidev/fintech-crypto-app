@@ -5,9 +5,11 @@ import styled from "styled-components/native";
 import useCachedResources from "./hooks/useCachedResources";
 import RootNavigation from "./src/screens/navigation/RootNavigation";
 import { useUserStore } from "./store/useUserStore";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const App = () => {
   const isLoadingComplete = useCachedResources();
+  const queryClient = new QueryClient();
 
   const { session, user } = useUserStore();
 
@@ -20,7 +22,9 @@ const App = () => {
   return (
     <Container>
       <StatusBar style="auto" />
-      <RootNavigation />
+      <QueryClientProvider client={queryClient}>
+        <RootNavigation />
+      </QueryClientProvider>
     </Container>
   );
 };
