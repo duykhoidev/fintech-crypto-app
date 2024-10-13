@@ -9,8 +9,13 @@ type AuthNavigationType = {
 
 type TabNavigationType = {
   Home: undefined;
-}
+};
 
 type SplashNavigationType = {
   Welcome: undefined;
 };
+
+type ScreenNavigationType = {
+  CoinDetails: { coinUuid: string };
+};
+

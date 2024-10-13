@@ -1,10 +1,11 @@
-import { XRapidAPIHost, XRapidAPIKey, XRapidAPIHostNews } from "./api";
 import axios from "axios";
+import { XRapidAPIHost, XRapidAPIKey } from "./api";
 
 // Endpoints
 
 const apiBaseUrl = "https://coinranking1.p.rapidapi.com";
 
+// GET /coins?referenceCurrencyUuid=yhjMzLPhuIDl&timePeriod=24h&tiers=1&orderBy=marketCap&orderDirection=desc&limit=50&offset=0 HTTP/1.1
 const coinsUrl = `${apiBaseUrl}/coins?referenceCurrencyUuid=yhjMzLPhuIDl&timePeriod=24h&tiers=1&orderBy=marketCap&orderDirection=desc&limit=30&offset=0`;
 
 const CryptoApiCall = async (endpoints, params) => {
@@ -26,7 +27,18 @@ const CryptoApiCall = async (endpoints, params) => {
     return {};
   }
 };
-
 export const FetchAllCoins = async () => {
   return await CryptoApiCall(coinsUrl);
+};
+
+export const FetchCoinDetails = async (coinUuid) => {
+  // GET /coin/Qwsogvtv82FCd?referenceCurrencyUuid=yhjMzLPhuIDl&timePeriod=24h
+  const endPoints = `${apiBaseUrl}/coin/${coinUuid}?referenceCurrencyUuid=yhjMzLPhuIDl&timePeriod=24h`;
+  return await CryptoApiCall(endPoints);
+};
+
+export const FetchCoinHistory = async (coinUuid) => {
+  // GET /coin/Qwsogvtv82FCd/history?referenceCurrencyUuid=yhjMzLPhuIDl&timePeriod=24h HTTP/1.1
+  const endPoints = `${apiBaseUrl}/coin/${coinUuid}/history?referenceCurrencyUuid=yhjMzLPhuIDl&timePeriod=24h`;
+  return await CryptoApiCall(endPoints);
 };

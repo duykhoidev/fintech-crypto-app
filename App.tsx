@@ -1,3 +1,4 @@
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { StatusBar } from "expo-status-bar";
 import React, { useEffect } from "react";
 import { View } from "react-native";
@@ -5,7 +6,6 @@ import styled from "styled-components/native";
 import useCachedResources from "./hooks/useCachedResources";
 import RootNavigation from "./src/screens/navigation/RootNavigation";
 import { useUserStore } from "./store/useUserStore";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const App = () => {
   const isLoadingComplete = useCachedResources();

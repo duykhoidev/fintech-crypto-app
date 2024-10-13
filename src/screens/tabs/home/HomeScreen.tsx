@@ -2,9 +2,14 @@ import useSupabaseAuth from "@/hooks/useSupabaseAuth";
 import Avatar from "@/src/components/Avatar";
 import { useUserStore } from "@/store/useUserStore";
 import { Ionicons } from "@expo/vector-icons";
-import { useFocusEffect } from "@react-navigation/native";
+import {
+  NavigationProp,
+  useFocusEffect,
+  useNavigation,
+} from "@react-navigation/native";
 import { useQuery } from "@tanstack/react-query";
 import { Image } from "expo-image";
+import numeral from "numeral";
 import React, { useCallback, useState } from "react";
 import {
   ActivityIndicator,
@@ -14,10 +19,9 @@ import {
   Text,
   View,
 } from "react-native";
+import Animated, { FadeInDown } from "react-native-reanimated";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { FetchAllCoins } from "../../../../utils/cryptoapi";
-import Animated, { FadeInDown } from "react-native-reanimated";
-import numeral from "numeral";
 
 interface Coin {
   uuid: string;
@@ -35,6 +39,7 @@ const HomeScreen = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { getUserProfile } = useSupabaseAuth();
   const { session } = useUserStore();
+  const { navigate }: NavigationProp<ScreenNavigationType> = useNavigation();
 
   const blurharsh =
     "|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[";
@@ -72,13 +77,18 @@ const HomeScreen = () => {
     }, [session])
   );
 
+  // It fetches data from an API or other data source.
+  // It returns an object with various properties and methods for managing the data and its loading state.
   const { data: CoinsData, isLoading: IsAllCoinsLoading } = useQuery({
-    queryKey: ["allCoins"],
-    queryFn: FetchAllCoins,
+    queryKey: ["allCoins"], // It sets the unique key for the query. It helps identify and cache the data.
+    queryFn: FetchAllCoins, // This specifies the function that will be called to fetch the data.
   });
 
   const renderItem = ({ item, index }: { item: Coin; index: number }) => (
-    <Pressable className="flex-row w-full py-4 items-center">
+    <Pressable
+      className="flex-row w-full py-4 items-center"
+      onPress={() => navigate("CoinDetails", { coinUuid: item.uuid })}
+    >
       <Animated.View
         entering={FadeInDown.duration(100)
           .delay(index * 200)
@@ -101,8 +111,9 @@ const HomeScreen = () => {
 
         <View className="w-[55%] justify-start items-start">
           <Text className="font-bold text-lg">{item.name}</Text>
+
           <View className="flex-row justify-center items-center space-x-2">
-            <Text className={`font-medium text-sm text-neutral-500`}>
+            <Text className="font-medium text-sm text-neutral-500">
               {numeral(parseFloat(item?.price)).format("$0,0.00")}
             </Text>
 
@@ -239,20 +250,22 @@ const HomeScreen = () => {
           contentContainerStyle={{ paddingBottom: 100 }}
           showsVerticalScrollIndicator={false}
         >
-          {IsAllCoinsLoading ? (
-            <ActivityIndicator size="large" color="black" />
-          ) : (
-            // Only show essential data to prevent loading all data at one time => Enhance performance of the app
-            // Until the user scroll down to see more data then it will be loaded it.
-            <FlatList
-              nestedScrollEnabled={true}
-              scrollEnabled={false}
-              data={CoinsData.data.coins}
-              keyExtractor={(item) => item.uuid}
-              renderItem={renderItem}
-              showsVerticalScrollIndicator={false}
-            />
-          )}
+          <View className="px-4 py-8 items-center">
+            {IsAllCoinsLoading ? (
+              <ActivityIndicator size="large" color="black" />
+            ) : (
+              // Only show essential data to prevent loading all data at one time => Enhance performance of the app
+              // Until the user scroll down to see more data then it will be loaded it.
+              <FlatList
+                nestedScrollEnabled={true}
+                scrollEnabled={false}
+                data={CoinsData.data.coins}
+                keyExtractor={(item) => item.uuid}
+                renderItem={renderItem}
+                showsVerticalScrollIndicator={false}
+              />
+            )}
+          </View>
         </ScrollView>
       </View>
     </SafeAreaView>
