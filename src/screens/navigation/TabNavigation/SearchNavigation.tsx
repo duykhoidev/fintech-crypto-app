@@ -1,11 +1,25 @@
+import {
+  TransitionPresets,
+  createStackNavigator,
+} from "@react-navigation/stack";
 import React from "react";
-import { Text, View } from "react-native";
+import SearchScreen from "../../tabs/search/SearchScreen";
+
+const Stack = createStackNavigator();
 
 const SearchNavigation = () => {
   return (
-    <View>
-      <Text>SearchNavigation</Text>
-    </View>
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+        ...TransitionPresets.SlideFromRightIOS,
+        animationEnabled: true,
+        gestureEnabled: true,
+        gestureDirection: "horizontal",
+      }}
+    >
+      <Stack.Screen name="SearchScreen" component={SearchScreen} />
+    </Stack.Navigator>
   );
 };
 

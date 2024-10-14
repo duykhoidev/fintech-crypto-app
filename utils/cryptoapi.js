@@ -42,3 +42,9 @@ export const FetchCoinHistory = async (coinUuid) => {
   const endPoints = `${apiBaseUrl}/coin/${coinUuid}/history?referenceCurrencyUuid=yhjMzLPhuIDl&timePeriod=24h`;
   return await CryptoApiCall(endPoints);
 };
+
+export const SearchCoin = async (search) => {
+  // GET /search-suggestions?referenceCurrencyUuid=yhjMzLPhuIDl&query=bitcoin
+  const endPoints = `${apiBaseUrl}/search-suggestions?referenceCurrencyUuid=yhjMzLPhuIDl&query=${search}`;
+  return await CryptoApiCall(endPoints);
+};

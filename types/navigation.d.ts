@@ -19,3 +19,12 @@ type ScreenNavigationType = {
   CoinDetails: { coinUuid: string };
 };
 
+type HomeNavigationType = {
+  HomeScreen: undefined;
+  CoinDetails: undefined;
+};
+
+type SearchNavigationType = {
+  SearchScreen: undefined;
+  
+}
