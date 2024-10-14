@@ -3,6 +3,7 @@ import { Entypo, MaterialIcons } from "@expo/vector-icons";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { Circle, useFont } from "@shopify/react-native-skia";
 import { useQuery } from "@tanstack/react-query";
+import { format } from "date-fns";
 import { Image } from "expo-image";
 import numeral from "numeral";
 import React, { useEffect, useState } from "react";
@@ -88,7 +89,7 @@ const CoinDetailsScreen = () => {
           <View className="flex-row items-center justify-between px-4">
             <Pressable
               className="border-2 border-neutral-500 rounded-full p-1"
-              onPress={() => navigation.goBack}
+              onPress={() => navigation.goBack()}
             >
               <MaterialIcons
                 name="keyboard-arrow-left"
@@ -168,7 +169,7 @@ const CoinDetailsScreen = () => {
 
       {/* Chart */}
       <View style={{ height: 500, paddingHorizontal: 10 }}>
-        {lineData && (
+        {lineData.length > 0 && (
           <CartesianChart
             chartPressState={state}
             axisOptions={{
