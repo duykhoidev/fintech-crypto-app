@@ -56,8 +56,8 @@ export default function useSupabaseAuth() {
   async function updateUserProfile(
     username: string,
     fullname: string,
-    avatarUrl: string,
-    website: string
+    avatarUrl: string
+    // website: string
   ) {
     if (!session?.user) throw new Error("No user on the session!");
 
@@ -66,7 +66,7 @@ export default function useSupabaseAuth() {
       username,
       full_name: fullname,
       avatar_url: avatarUrl,
-      website,
+      // website,
       updated_at: new Date(),
     };
 

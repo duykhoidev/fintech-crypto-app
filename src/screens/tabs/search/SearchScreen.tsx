@@ -5,12 +5,12 @@ import { debounce } from "lodash";
 import numeral from "numeral";
 import React, { useCallback, useState } from "react";
 import {
-    ActivityIndicator,
-    FlatList,
-    Pressable,
-    Text,
-    TextInput,
-    View,
+  ActivityIndicator,
+  FlatList,
+  Pressable,
+  Text,
+  TextInput,
+  View,
 } from "react-native";
 import { XMarkIcon } from "react-native-heroicons/outline";
 import Animated, { FadeInDown } from "react-native-reanimated";
@@ -80,7 +80,7 @@ const SearchScreen = () => {
 
           <View className="flex-row justify-center items-center space-x-2">
             <Text className="font-medium text-sm text-neutral-500">
-              {item?.marketCap.length > 9
+              {item?.marketCap?.length > 9
                 ? item?.marketCap.slice(0, 9)
                 : item?.marketCap}
             </Text>

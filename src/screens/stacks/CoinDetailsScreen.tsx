@@ -169,7 +169,7 @@ const CoinDetailsScreen = () => {
 
       {/* Chart */}
       <View style={{ height: 500, paddingHorizontal: 10 }}>
-        {lineData && lineData.length > 0 && (
+        {lineData?.length > 0 && (
           <CartesianChart
             chartPressState={state}
             axisOptions={{
