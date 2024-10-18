@@ -77,7 +77,7 @@ const NewsScreen = () => {
   };
 
   return (
-    <SafeAreaView className="space-y-2 bg-white dark:bg-neutral-500 flex-1">
+    <SafeAreaView className="space-y-2 bg-white flex-1">
       {/* Header */}
       <View className="w-full flex-row justify-between items-center px-4 pb-4">
         <View className="w-3/4 flex-row space-x-2">
